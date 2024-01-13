@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_fire_floor",
-  "textures": {
-    "fire": "addon:blocks/copper_sulfate_fire_block_0"
-  }
-}
