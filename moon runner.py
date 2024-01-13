@@ -286,6 +286,7 @@ while True:
         
         xdist = jet_centre[0] - enemy_rect.x
         ydist = jet_centre[1] - enemy_rect.y
+        #heymrtynrt
         
         enemy_angle = 0
         if xdist != 0 or ydist != 0:
