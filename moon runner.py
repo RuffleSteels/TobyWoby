@@ -8,7 +8,6 @@ shoot = 0
 missilexv = 0
 enemycoming = 0
 speed = 10
-
 max_speed = 30
 min_speed = 10
 lives = 3
@@ -24,6 +23,17 @@ jet_angle = 0
 angle_increment = 0
 enemy_angle = 0
 offsetspeed = 10
+enemy_missile_fire = 0
+coordsx = 0
+coordsy = 0
+missile_angle = 0
+acceleration_up_speed = 0
+enemyshooting = 0
+side_speed = 10
+rotated_enemy_missile_rect = 0
+canenemyshooting = 0
+missilecolliding = 0
+
 
 move_left = False
 move_right = False
@@ -40,45 +50,51 @@ clock = pygame.time.Clock()
 sky_surf = pygame.display.set_mode((2000, 1200))
 sky_rect = sky_surf.get_rect(center = (1000, 600))
 
-cloud1_surf1 = pygame.image.load('graphics/cloud1.png').convert_alpha()
+cloud1_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/cloud1.png').convert_alpha()
 cloud1_surf = pygame.transform.scale(cloud1_surf1, (640, 400))
 cloud1_rect = cloud1_surf.get_rect(midleft = (2100, 400))
 
-cloud2_surf1 = pygame.image.load('graphics/cloud2.png').convert_alpha()
+cloud2_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/cloud2.png').convert_alpha()
 cloud2_surf = pygame.transform.scale(cloud2_surf1, (640, 400))
 cloud2_rect = cloud2_surf.get_rect(midleft = (2100, 400))
 
-cloud3_surf1 = pygame.image.load('graphics/cloud2.png').convert_alpha()
+cloud3_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/cloud2.png').convert_alpha()
 cloud3_surf = pygame.transform.scale(cloud2_surf1, (640, 400))
 cloud3_rect = cloud2_surf.get_rect(midleft = (2100, 400))    
 
+heli_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/Helicopter.png').convert_alpha()
+heli_surf =  pygame.transform.scale(heli_surf1, (140, 70))
+heli_rect = heli_surf.get_rect(center = (1800, 600))
 
-
-jet_surf1 = pygame.image.load('graphics/fighter jet.png').convert_alpha()
+jet_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/fighter jet.png').convert_alpha()
 jet_surf =  pygame.transform.scale(jet_surf1, (120, 40))
 jet_rect = jet_surf.get_rect(center = (800, 600))
 
-missile_surf1 = pygame.image.load('graphics/missile.png').convert_alpha()
+missile_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/missile.png').convert_alpha()
 missile_surf = pygame.transform.scale(missile_surf1, (35, 12))
 missile_rect = missile_surf.get_rect(center = (200, 600))
 
-enemy_surf1 = pygame.image.load('graphics/enemy.png').convert_alpha()
+enemy_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/enemy.png').convert_alpha()
 enemy_surf = pygame.transform.scale(enemy_surf1, (100, 36))
 enemy_rect = enemy_surf.get_rect(center = (-50, 600))
 
-speedomiter_surf1 = pygame.image.load('graphics/speedomiter.png').convert_alpha()
-speedomiter_surf = pygame.transform.scale(speedomiter_surf1, (240, 165))
+enemy_missile_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/missile.png').convert_alpha()
+enemy_missile_surf = pygame.transform.scale(enemy_missile_surf1, (35, 12))
+enemy_missile_rect = enemy_missile_surf.get_rect(center = (200, 600))
+
+speedomiter_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/speedomiter.png').convert_alpha()
+speedomiter_surf = pygame.transform.scale(speedomiter_surf1, (400, 250))
 speedomiter_rect = speedomiter_surf.get_rect(center = (1600, 1100))
 
-heartone_surf = pygame.image.load('graphics/heart.png').convert_alpha()
+heartone_surf = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/heart.png').convert_alpha()
 heart1_surf = pygame.transform.scale(heartone_surf, (80, 80))
-heart1_rect = heart1_surf.get_rect(center = (100, 1100))
+heart1_rect = heart1_surf.get_rect(center = (100, 1110))
 
-hearttwo_surf = pygame.image.load('graphics/heart.png').convert_alpha()
+hearttwo_surf = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/heart.png').convert_alpha()
 heart2_surf = pygame.transform.scale(hearttwo_surf, (80, 80))
 heart2_rect = heart2_surf.get_rect(center = (200, 1100))
 
-heartthree_surf = pygame.image.load('graphics/heart.png').convert_alpha()
+heartthree_surf = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/heart.png').convert_alpha()
 heart3_surf = pygame.transform.scale(heartthree_surf, (80, 80))
 heart3_rect = heart3_surf.get_rect(center = (300, 1100))
 
@@ -108,7 +124,7 @@ while True:
     pygame.draw.rect(sky_surf, (red, green, blue), sky_rect)
 
     
-    speed_font = pygame.font.Font(None, 200)
+    speed_font = pygame.font.Font(None, 100)
 
     speedtext_surf = speed_font.render(str(math.trunc(speed*10)), False, (225, 225, 225))
     speedtext_rect = speedtext_surf.get_rect(center = (1560, 1100)) 
@@ -185,12 +201,12 @@ while True:
     #CONTROLS THE PLANES SPEED
 
     if move_right:
-        if speed < max_speed:
-            speed += 0.3
+        if side_speed < max_speed:
+            side_speed += 0.3
             
     if move_left:
-        if speed > min_speed:
-            speed -= 0.3
+        if side_speed > min_speed:
+            side_speed -= 0.3
 
    
 
@@ -199,6 +215,7 @@ while True:
 
 
     if move_up == 1:
+        acceleration_up_speed = up_speed
         if angle >= 0:
             if angle < 15:
                 up_speed = 1 * ((angle + 1) * 5 * angle)
@@ -210,6 +227,7 @@ while True:
                 up_speed = 0.4 * ((angle + 1) * .01 * -angle)
         jet_angle = 1
     if move_up == -1:
+        acceleration_up_speed = up_speed
         if angle <= 0:
             if angle > -45:
                 up_speed = 1 * ((angle + 1) * .01 * -angle)
@@ -219,6 +237,7 @@ while True:
                 up_speed = 0.4 * ((angle + 1) * .01 * angle)
         jet_angle = -1
     if move_up == 0:
+        acceleration_up_speed = acceleration_up_speed
         jet_angle = 0
 
     if move_up == 1:
@@ -240,22 +259,16 @@ while True:
     if jet_angle == 1:
         if angle < 25:
             angle_increment += 0.1
-        if angle > 35:
-            if angle_increment > 0.3:
-                angle_increment -= 0.2
         if angle > 25:
             if angle_increment > 0.2:
                 angle_increment -= 0.1
-        if angle < 60:
+        if angle < 35:
             angle += angle_increment
     if jet_angle == -1:
 
         if angle > -35:
             angle_increment += 0.1
-        if angle < -35:
-            if angle_increment > 0.3:
-                angle_increment += 0.2
-        if angle > -45:
+        if angle > -35:
             angle -= angle_increment
 
                 
@@ -277,31 +290,81 @@ while True:
     
 
             
-    
+    print(enemy_rect.y)
+    jet_top_left = jet_rect.topleft
     jet_centre = jet_rect.center
+    
+
+    speed = math.cos(angle*(math.pi/180)) * side_speed 
+    up_speed =  math.sin(angle*(math.pi/180)) * side_speed
+
     enemy = randint(1, 150)
     if enemy == 54:
         enemycoming = 1
+        canenemyshooting = 1
+
+    if enemy_missile_rect.colliderect(jet_rect):    
+        if missilecolliding == 0:
+            lives -= 1
+            missilecolliding = 1 
+
+    if canenemyshooting == 1:
+
+        missile_fire = randint(1, 100)
+        if missile_fire == 53:
+            enemyshooting = 1
+            if enemy_missile_fire == 0:
+                coordsx = enemy_rect.centerx
+                coordsy = enemy_rect.centery
+                enemy_missile_rect = enemy_missile_surf.get_rect(center = (coordsx, coordsy))
+
+                xdist = jet_centre[0] - enemy_rect.centerx
+                ydist = jet_centre[1] - enemy_rect.centery
+
+                missile_angle = math.degrees(math.atan2(ydist, xdist))
+
+                
+                rotated_enemy_missile_surf = pygame.transform.rotate(enemy_missile_surf, -missile_angle)
+                rotated_enemy_missile_rect = rotated_enemy_missile_surf.get_rect(center = (enemy_missile_rect[0], enemy_missile_rect[1]))
+
+            enemy_missile_fire = 1
+
+            if missilecolliding == 1 or rotated_enemy_missile_rect.x > 2000:
+                missilereset = 1
+                enemy_missile_rect = enemy_missile_surf.get_rect(center = (100, -100))
+                enemy_missile_fire == 0
+
+        if enemy_missile_fire == 1:
+
+            screen.blit(rotated_enemy_missile_surf, rotated_enemy_missile_rect)
+
+            #coordsx += 13
+            rotated_enemy_missile_rect.x += math.cos(missile_angle*(math.pi/180))*10
+            rotated_enemy_missile_rect.y += ( math.sin(missile_angle*(math.pi/180))*10 ) + acceleration_up_speed
+
+
+        
+
+
+    
     if enemycoming == 1:
+
+
         enemy_rect.x += randint(5, 15) - speed/2
         enemy_rect.y += up_speed
         
-        xdist = jet_centre[0] - enemy_rect.x
-        ydist = jet_centre[1] - enemy_rect.y
-
+        xdist = jet_top_left[0] - enemy_rect.left
+        ydist = jet_top_left[1] - enemy_rect.top
 
         enemy_angle = 0
         if xdist != 0 or ydist != 0:
-            enemy_angle = math.degrees(math.atan2(ydist, xdist))
-            
+            enemy_angle = math.degrees(math.atan2(ydist, xdist))    
         enemy_rect.y += up_speed + enemy_angle/3
         if enemy_rect.x > jet_centre[0]:
             enemy_rect.x -= speed/2
-
         enemy_rotated_surf = pygame.transform.rotate(enemy_surf, -enemy_angle)
         enemy_rotated_rect = enemy_rotated_surf.get_rect(center = (enemy_rect.centerx, enemy_rect.centery))
         screen.blit(enemy_rotated_surf, enemy_rotated_rect)
-    
     if enemy_rect.x > 2000 or colliding == 1:
         enemyreset = 1
         enemy_rect = enemy_surf.get_rect(center = (-50, randint(10, 590)))
@@ -336,6 +399,8 @@ while True:
     if cloud2_rect.right < 0:
         cloud2reset = 1
         cloud2_rect = cloud2_surf.get_rect(midleft = (2100, randint(10, 1000)))
+
+    screen.blit(heli_surf, heli_rect)
   
     
 
