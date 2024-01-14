@@ -51,6 +51,14 @@ clock = pygame.time.Clock()
 sky_surf = pygame.display.set_mode((2000, 1200))
 sky_rect = sky_surf.get_rect(center = (1000, 600))
 
+foreground1_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
+foreground_surf = pygame.transform.scale(foreground1_surf, (2000, 1200))
+foreground_rect = foreground_surf.get_rect(center = (1000, 600))
+
+foreground3_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
+foreground2_surf = pygame.transform.scale(foreground3_surf, (2000, 1200))
+foreground2_rect = foreground2_surf.get_rect(topleft = (2000, 0))
+
 cloud1_surf1 = pygame.image.load('graphics/cloud1.png').convert_alpha()
 cloud1_surf = pygame.transform.scale(cloud1_surf1, (640, 400))
 cloud1_rect = cloud1_surf.get_rect(midleft = (2100, 400))
@@ -135,6 +143,20 @@ while True:
     screen.blit(speedomiter_surf, speedomiter_rect)
     screen.blit(mphtext_surf, mphtext_rect)
     screen.blit(speedtext_surf, speedtext_rect)
+
+    screen.blit(foreground_surf, foreground_rect)
+    foreground_rect.x -= speed /20
+    foreground_rect.y += up_speed/20
+    screen.blit(foreground2_surf, foreground2_rect)
+    foreground2_rect.x -= speed /20
+    foreground2_rect.y += up_speed/20
+
+    if foreground_rect.right < 0:
+        foreground_rect = foreground_surf.get_rect(topleft = (2000, 0))
+
+    if foreground2_rect.right < 0:
+        foreground2_rect = foreground2_surf.get_rect(topleft = (2000, 0))
+
 
     if lives >= 1:
         screen.blit(heart1_surf, heart1_rect)
