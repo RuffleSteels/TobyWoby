@@ -50,51 +50,51 @@ clock = pygame.time.Clock()
 sky_surf = pygame.display.set_mode((2000, 1200))
 sky_rect = sky_surf.get_rect(center = (1000, 600))
 
-cloud1_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/cloud1.png').convert_alpha()
+cloud1_surf1 = pygame.image.load('graphics/cloud1.png').convert_alpha()
 cloud1_surf = pygame.transform.scale(cloud1_surf1, (640, 400))
 cloud1_rect = cloud1_surf.get_rect(midleft = (2100, 400))
 
-cloud2_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/cloud2.png').convert_alpha()
+cloud2_surf1 = pygame.image.load('graphics/cloud2.png').convert_alpha()
 cloud2_surf = pygame.transform.scale(cloud2_surf1, (640, 400))
 cloud2_rect = cloud2_surf.get_rect(midleft = (2100, 400))
 
-cloud3_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/cloud2.png').convert_alpha()
+cloud3_surf1 = pygame.image.load('graphics/cloud2.png').convert_alpha()
 cloud3_surf = pygame.transform.scale(cloud2_surf1, (640, 400))
 cloud3_rect = cloud2_surf.get_rect(midleft = (2100, 400))    
 
-heli_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/Helicopter.png').convert_alpha()
+heli_surf1 = pygame.image.load('graphics/Helicopter.png').convert_alpha()
 heli_surf =  pygame.transform.scale(heli_surf1, (140, 70))
 heli_rect = heli_surf.get_rect(center = (1800, 600))
 
-jet_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/fighter jet.png').convert_alpha()
+jet_surf1 = pygame.image.load('graphics/fighter jet.png').convert_alpha()
 jet_surf =  pygame.transform.scale(jet_surf1, (120, 40))
 jet_rect = jet_surf.get_rect(center = (800, 600))
 
-missile_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/missile.png').convert_alpha()
+missile_surf1 = pygame.image.load('graphics/missile.png').convert_alpha()
 missile_surf = pygame.transform.scale(missile_surf1, (35, 12))
 missile_rect = missile_surf.get_rect(center = (200, 600))
 
-enemy_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/enemy.png').convert_alpha()
+enemy_surf1 = pygame.image.load('graphics/enemy.png').convert_alpha()
 enemy_surf = pygame.transform.scale(enemy_surf1, (100, 36))
 enemy_rect = enemy_surf.get_rect(center = (-50, 600))
 
-enemy_missile_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/missile.png').convert_alpha()
+enemy_missile_surf1 = pygame.image.load('graphics/missile.png').convert_alpha()
 enemy_missile_surf = pygame.transform.scale(enemy_missile_surf1, (35, 12))
 enemy_missile_rect = enemy_missile_surf.get_rect(center = (200, 600))
 
-speedomiter_surf1 = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/speedomiter.png').convert_alpha()
+speedomiter_surf1 = pygame.image.load('graphics/speedomiter.png').convert_alpha()
 speedomiter_surf = pygame.transform.scale(speedomiter_surf1, (400, 250))
 speedomiter_rect = speedomiter_surf.get_rect(center = (1600, 1100))
 
-heartone_surf = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/heart.png').convert_alpha()
+heartone_surf = pygame.image.load('graphics/heart.png').convert_alpha()
 heart1_surf = pygame.transform.scale(heartone_surf, (80, 80))
 heart1_rect = heart1_surf.get_rect(center = (100, 1110))
 
-hearttwo_surf = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/heart.png').convert_alpha()
+hearttwo_surf = pygame.image.load('graphics/heart.png').convert_alpha()
 heart2_surf = pygame.transform.scale(hearttwo_surf, (80, 80))
 heart2_rect = heart2_surf.get_rect(center = (200, 1100))
 
-heartthree_surf = pygame.image.load('/Users/tobybrett/Documents/python/Python moon game/graphics/heart.png').convert_alpha()
+heartthree_surf = pygame.image.load('graphics/heart.png').convert_alpha()
 heart3_surf = pygame.transform.scale(heartthree_surf, (80, 80))
 heart3_rect = heart3_surf.get_rect(center = (300, 1100))
 
