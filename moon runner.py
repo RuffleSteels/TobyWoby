@@ -54,15 +54,15 @@ pygame.display.set_caption('Moon Explorer')
 clock = pygame.time.Clock()
 
 
-sky_surf = pygame.display.set_mode((2000, 1200))
-sky_rect = sky_surf.get_rect(center = (1000, 600))
+# sky_surf = pygame.display.set_mode((2000, 1200))
+sky_rect = screen.get_rect(center = (1000, 600))
 
 background1_surf = pygame.image.load('graphics/background.png').convert_alpha()
-background_surf = pygame.transform.scale(background1_surf, (8000, 1200))
+background_surf = pygame.transform.scale(background1_surf, (8000*scale, 1200*scale))
 background_rect = background_surf.get_rect(topleft = (0, 0))
 
 midground1_surf = pygame.image.load('graphics/midground.png').convert_alpha()
-midground_surf = pygame.transform.scale(midground1_surf, (8000, 1200))
+midground_surf = pygame.transform.scale(midground1_surf, (8000*scale, 1200*scale))
 midground_rect = background_surf.get_rect(topleft = (0, 0))
 
 foreground1_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
@@ -135,7 +135,7 @@ while True:
     red = 79 + redheight
     green = 176 + greenheight
     blue = 240 + blueheight
-    pygame.draw.rect(sky_surf, (red, green, blue), sky_rect)
+    pygame.draw.rect(screen, (red, green, blue), sky_rect)
 
     screen.blit(background_surf, background_rect)
     background_rect.x -= side_speed / 10

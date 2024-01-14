@@ -13,7 +13,7 @@ class Animation:
         self.y = y
         self.value = 0
 
-    def update(self, speed, window, up_speed):
+    def update(self, window, speed, up_speed):
         if self.value >= len(Animation.image_sprite):
             return True  # Animation has finished
         else:
