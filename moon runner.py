@@ -58,16 +58,16 @@ clock = pygame.time.Clock()
 sky_rect = screen.get_rect(center = (1000, 600))
 
 background1_surf = pygame.image.load('graphics/background.png').convert_alpha()
-background_surf = pygame.transform.scale(background1_surf, (8000*scale, 1200*scale))
-background_rect = background_surf.get_rect(topleft = (0, 0))
+background_surf = pygame.transform.scale(background1_surf, (6000*scale, 900*scale))
+background_rect = background_surf.get_rect(bottomleft = (0, screenHeight))
 
 midground1_surf = pygame.image.load('graphics/midground.png').convert_alpha()
-midground_surf = pygame.transform.scale(midground1_surf, (8000*scale, 1200*scale))
-midground_rect = background_surf.get_rect(topleft = (0, 0))
+midground_surf = pygame.transform.scale(midground1_surf, (6000*scale, 900*scale))
+midground_rect = background_surf.get_rect(bottomleft = (0, screenHeight))
 
 foreground1_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
-foreground_surf = pygame.transform.scale(foreground1_surf, (8000, 1200))
-foreground_rect = foreground_surf.get_rect(topleft = (0, 0))
+foreground_surf = pygame.transform.scale(foreground1_surf, (6000*scale, 900*scale))
+foreground_rect = foreground_surf.get_rect(bottomleft = (0, screenHeight))
 
 cloud1_surf1 = pygame.image.load('graphics/cloud1.png').convert_alpha()
 cloud1_surf = pygame.transform.scale(cloud1_surf1, (640*scale, 400*scale))
@@ -131,6 +131,8 @@ colliding = 0
 animations = []
 temp_acc = 1     
  
+
+ 
 while True:
     red = 79 + redheight
     green = 176 + greenheight
@@ -138,16 +140,16 @@ while True:
     pygame.draw.rect(screen, (red, green, blue), sky_rect)
 
     screen.blit(background_surf, background_rect)
-    background_rect.x -= side_speed / 10
-    background_rect.y += up_speed / 10
+    background_rect.left -= speed / 12
+    background_rect.y += up_speed / 12
 
     screen.blit(midground_surf, midground_rect)
-    midground_rect.x -= side_speed / 7
+    midground_rect.left -= speed / 7
     midground_rect.y += up_speed / 7
 
     screen.blit(foreground_surf, foreground_rect)
-    foreground_rect.x -= side_speed / 4
-    foreground_rect.y += up_speed / 4
+    foreground_rect.left -= speed / 5
+    foreground_rect.y += up_speed / 5
 
     #EVERYTHING WHICH MOVES
     
@@ -256,31 +258,36 @@ while True:
     #CHANGING UP SPEED DEPENDING ON VARIABLE
 
 
-    if move_up == 1:
-        acceleration_up_speed = up_speed
-        if angle >= 0:
-            if angle < 15:
-                up_speed = 1 * ((angle + 1) * 5 * angle)
-            if angle < 45:
-                up_speed = 1 * ((angle + 1) * .01 * angle)
-            if angle > 45:
-                up_speed = 0.4 * ((angle + 1) * .01 * angle)
-        if angle < 0:
-                up_speed = 0.4 * ((angle + 1) * .01 * -angle)
-        jet_angle = 1
-    if move_up == -1:
-        acceleration_up_speed = up_speed
-        if angle <= 0:
-            if angle > -45:
-                up_speed = 1 * ((angle + 1) * .01 * -angle)
-            if angle < -45:
-                up_speed = 0.4 * ((angle + 1) * .01 * -angle)
-        if angle > 0:
-                up_speed = 0.4 * ((angle + 1) * .01 * angle)
-        jet_angle = -1
-    if move_up == 0:
-        acceleration_up_speed = acceleration_up_speed
-        jet_angle = 0
+    # if move_up == 1:
+    #     acceleration_up_speed = up_speed
+    #     if angle >= 0:
+    #         if angle < 15:
+    #             up_speed = 1 * ((angle + 1) * 5 * angle)
+    #         if angle < 45:
+    #             up_speed = 1 * ((angle + 1) * .01 * angle)
+    #         if angle > 45:
+    #             up_speed = 0.4 * ((angle + 1) * .01 * angle)
+    #     if angle < 0:
+    #             up_speed = 0.4 * ((angle + 1) * .01 * -angle)
+    #     jet_angle = 1
+    # if move_up == -1:
+    #     acceleration_up_speed = up_speed
+    #     if angle <= 0:
+    #         if angle > -45:
+    #             up_speed = 1 * ((angle + 1) * .01 * -angle)
+    #         if angle < -45:
+    #             up_speed = 0.4 * ((angle + 1) * .01 * -angle)
+    #     if angle > 0:
+    #             up_speed = 0.4 * ((angle + 1) * .01 * angle)
+    #     jet_angle = -1
+    # if move_up == 0:
+    #     acceleration_up_speed = acceleration_up_speed
+    #     jet_angle = 0
+    
+    # up_speed = calculate_y_velocity(angle)
+    
+    up_speed = angle
+    print(up_speed)
 
     if move_up == 1:
         jet_angle = 1
@@ -337,7 +344,7 @@ while True:
     
 
     speed = math.cos(angle*(math.pi/180)) * side_speed 
-    up_speed =  math.sin(angle*(math.pi/180)) * side_speed
+    # up_speed =  math.sin(angle*(math.pi/180)) * side_speed
 
     enemy = randint(1, 150)
     if enemy == 54:
