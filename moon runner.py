@@ -8,6 +8,7 @@ shoot = 0
 missilexv = 0
 enemycoming = 0
 speed = 10
+
 max_speed = 30
 min_speed = 10
 lives = 3
