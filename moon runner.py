@@ -9,9 +9,9 @@ jetup = 0
 shoot = 0
 missilexv = 0
 enemycoming = 0
-speed = 20
+speed = 10
 max_speed = 40
-min_speed = 20
+min_speed = 10
 lives = 3
 cloud1_coming = 0
 cloud2coming = 0
@@ -24,14 +24,14 @@ angle = 0
 jet_angle = 0
 angle_increment = 0
 enemy_angle = 0
-offsetspeed = 20
+offsetspeed = 10
 enemy_missile_fire = 0
 coordsx = 0
 coordsy = 0
 missile_angle = 0
 acceleration_up_speed = 0
 enemyshooting = 0
-side_speed = 20
+side_speed = 10
 rotated_enemy_missile_rect = 0
 canenemyshooting = 0
 missilecolliding = 0
@@ -58,11 +58,11 @@ clock = pygame.time.Clock()
 sky_rect = screen.get_rect(center = (1000, 600))
 
 background1_surf = pygame.image.load('graphics/background.png').convert_alpha()
-background_surf = pygame.transform.scale(background1_surf, (8000*scale, 1200*scale))
+background_surf = pygame.transform.scale(background1_surf, (1600*scale, 600*scale))
 background_rect = background_surf.get_rect(topleft = (0, 0))
 
 midground1_surf = pygame.image.load('graphics/midground.png').convert_alpha()
-midground_surf = pygame.transform.scale(midground1_surf, (8000*scale, 1200*scale))
+midground_surf = pygame.transform.scale(midground1_surf, (1600*scale, 600*scale))
 midground_rect = background_surf.get_rect(topleft = (0, 0))
 
 foreground1_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
@@ -391,7 +391,7 @@ while True:
     if enemycoming == 1:
 
 
-        enemy_rect.x += randint(10, 20) - speed/2 + 3
+        enemy_rect.x += randint(5, 15) - speed/2 
         enemy_rect.y += up_speed
         
         xdist = jet_top_left[0] - enemy_rect.left
