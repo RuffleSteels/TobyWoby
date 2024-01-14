@@ -145,10 +145,10 @@ while True:
     screen.blit(speedtext_surf, speedtext_rect)
 
     screen.blit(foreground_surf, foreground_rect)
-    foreground_rect.x -= speed/100
+    foreground_rect.x -= speed/20
     foreground_rect.y += up_speed/20
     screen.blit(foreground2_surf, foreground2_rect)
-    foreground2_rect.x -= speed/100
+    foreground2_rect.x -= speed/20
     foreground2_rect.y += up_speed/20
     if foreground_rect.right < 0:
         foreground_rect = foreground_surf.get_rect(topleft = (2000, 0))
