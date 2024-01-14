@@ -9,9 +9,9 @@ jetup = 0
 shoot = 0
 missilexv = 0
 enemycoming = 0
-speed = 10
-max_speed = 30
-min_speed = 10
+speed = 20
+max_speed = 40
+min_speed = 20
 lives = 3
 cloud1_coming = 0
 cloud2coming = 0
@@ -24,14 +24,14 @@ angle = 0
 jet_angle = 0
 angle_increment = 0
 enemy_angle = 0
-offsetspeed = 10
+offsetspeed = 20
 enemy_missile_fire = 0
 coordsx = 0
 coordsy = 0
 missile_angle = 0
 acceleration_up_speed = 0
 enemyshooting = 0
-side_speed = 10
+side_speed = 20
 rotated_enemy_missile_rect = 0
 canenemyshooting = 0
 missilecolliding = 0
@@ -53,7 +53,21 @@ screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.RESIZABLE)
 pygame.display.set_caption('Moon Explorer')
 clock = pygame.time.Clock()
 
-sky_rect = screen.get_rect(center = (screenWidth, screenHeight))
+
+sky_surf = pygame.display.set_mode((2000, 1200))
+sky_rect = sky_surf.get_rect(center = (1000, 600))
+
+background1_surf = pygame.image.load('graphics/background.png').convert_alpha()
+background_surf = pygame.transform.scale(background1_surf, (8000, 1200))
+background_rect = background_surf.get_rect(topleft = (0, 0))
+
+midground1_surf = pygame.image.load('graphics/midground.png').convert_alpha()
+midground_surf = pygame.transform.scale(midground1_surf, (8000, 1200))
+midground_rect = background_surf.get_rect(topleft = (0, 0))
+
+foreground1_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
+foreground_surf = pygame.transform.scale(foreground1_surf, (8000, 1200))
+foreground_rect = foreground_surf.get_rect(topleft = (0, 0))
 
 cloud1_surf1 = pygame.image.load('graphics/cloud1.png').convert_alpha()
 cloud1_surf = pygame.transform.scale(cloud1_surf1, (640*scale, 400*scale))
@@ -118,14 +132,28 @@ animations = []
 temp_acc = 1     
  
 while True:
+    red = 79 + redheight
+    green = 176 + greenheight
+    blue = 240 + blueheight
+    pygame.draw.rect(sky_surf, (red, green, blue), sky_rect)
+
+    screen.blit(background_surf, background_rect)
+    background_rect.x -= side_speed / 10
+    background_rect.y += up_speed / 10
+
+    screen.blit(midground_surf, midground_rect)
+    midground_rect.x -= side_speed / 7
+    midground_rect.y += up_speed / 7
+
+    screen.blit(foreground_surf, foreground_rect)
+    foreground_rect.x -= side_speed / 4
+    foreground_rect.y += up_speed / 4
 
     #EVERYTHING WHICH MOVES
     
     
-    red = 79 + redheight
-    green = 176 + greenheight
-    blue = 240 + blueheight
-    pygame.draw.rect(screen, (red, green, blue), sky_rect)
+
+    
 
     
     speed_font = pygame.font.Font(None, int(130*scale))
@@ -137,6 +165,18 @@ while True:
     screen.blit(speedomiterObj, speedomiterRect)
     screen.blit(mphtext_surf, mphtext_rect)
     screen.blit(speedtext_surf, speedtext_rect)
+
+    #screen.blit(foreground_surf, foreground_rect)
+    #foreground_rect.x -= speed/2
+    #foreground_rect.y += up_speed/20
+    #screen.blit(foreground2_surf, foreground2_rect)
+    #foreground2_rect.x -= speed/2
+    #foreground2_rect.y += up_speed/20
+    #if foreground_rect.right < 0:
+    #    foreground_rect = foreground_surf.get_rect(topleft = (2000, 0))
+    #if foreground2_rect.right < 0:
+    #    foreground2_rect = foreground2_surf.get_rect(topleft = (2000, 0))
+
 
     if lives >= 1:
         screen.blit(heart1_surf, heart1_rect)
@@ -204,6 +244,7 @@ while True:
     if move_right:
         if side_speed < max_speed:
             side_speed += 0.3
+
             
     if move_left:
         if side_speed > min_speed:
@@ -290,8 +331,7 @@ while True:
         missilexv = 0
     
 
-            
-    print(enemy_rect.y)
+
     jet_top_left = jet_rect.topleft
     jet_centre = jet_rect.center
     
@@ -351,7 +391,7 @@ while True:
     if enemycoming == 1:
 
 
-        enemy_rect.x += randint(5, 15) - speed/2
+        enemy_rect.x += randint(10, 20) - speed/2 + 3
         enemy_rect.y += up_speed
         
         xdist = jet_top_left[0] - enemy_rect.left
