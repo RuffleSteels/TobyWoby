@@ -424,7 +424,7 @@ while True:
     
     if enemy_rect.colliderect(jet_rect):    
         if colliding == 0:
-            startExplosion(animations, jet_rect.x-175, jet_rect.y-256, speed, up_speed)
+            startExplosion(animations, jet_rect.x-175, jet_rect.y-256)
             lives -= 1
             colliding = 1
     
@@ -432,7 +432,7 @@ while True:
     
     animations_to_remove = []
     for animation in animations:
-        if animation.update():
+        if animation.update(speed, up_speed):
             animations_to_remove.append(animation)
 
     for animation in animations_to_remove:
