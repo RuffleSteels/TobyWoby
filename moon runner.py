@@ -53,7 +53,7 @@ sky_rect = sky_surf.get_rect(center = (1000, 600))
 
 foreground1_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
 foreground_surf = pygame.transform.scale(foreground1_surf, (2000, 1200))
-foreground_rect = foreground_surf.get_rect(center = (1000, 600))
+foreground_rect = foreground_surf.get_rect(topleft = (0, 0))
 
 foreground3_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
 foreground2_surf = pygame.transform.scale(foreground3_surf, (2000, 1200))
@@ -145,10 +145,10 @@ while True:
     screen.blit(speedtext_surf, speedtext_rect)
 
     screen.blit(foreground_surf, foreground_rect)
-    foreground_rect.x -= speed /20
+    foreground_rect.x -= speed
     foreground_rect.y += up_speed/20
     screen.blit(foreground2_surf, foreground2_rect)
-    foreground2_rect.x -= speed /20
+    foreground2_rect.x -= speed
     foreground2_rect.y += up_speed/20
     if foreground_rect.right < 0:
         foreground_rect = foreground_surf.get_rect(topleft = (2000, 0))
