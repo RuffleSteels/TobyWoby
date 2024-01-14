@@ -47,7 +47,7 @@ pygame.init()
 screenWidth = 1500
 screenHeight = 900
 screenCentre = (screenWidth/2, screenHeight/2)
-scale = screenHeight/screenWidth
+scale = screenHeight/1.2/screenHeight
 screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.RESIZABLE)
 
 pygame.display.set_caption('Moon Explorer')
