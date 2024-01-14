@@ -1,6 +1,7 @@
 import pygame
 from sys import exit
 from random import randint
+from explosion import startExplosion
 import math
 
 jetup = 0
@@ -111,12 +112,13 @@ def calculate_angle(x1, y1, x2, y2):
     return angle
 
 colliding = 0
-
+animations = []
 temp_acc = 1     
  
 while True:
 
     #EVERYTHING WHICH MOVES
+    
     
     red = 79 + redheight
     green = 176 + greenheight
@@ -142,10 +144,7 @@ while True:
                 screen.blit(heart3_surf, heart3_rect)
 
 
-    if enemy_rect.colliderect(jet_rect):    
-        if colliding == 0:
-            lives -= 1
-            colliding = 1
+
 
               
     if colliding == 1:
@@ -403,11 +402,21 @@ while True:
     screen.blit(heli_surf, heli_rect)
   
     
+    if enemy_rect.colliderect(jet_rect):    
+        if colliding == 0:
+            startExplosion(animations, jet_rect.x-175, jet_rect.y-256, speed, up_speed)
+            lives -= 1
+            colliding = 1
+    
+    
+    
+    animations_to_remove = []
+    for animation in animations:
+        if animation.update():
+            animations_to_remove.append(animation)
 
-    
-    
-    
-    
+    for animation in animations_to_remove:
+        animations.remove(animation)
     pygame.display.update()
     clock.tick(60)
 
