@@ -3,6 +3,7 @@ from sys import exit
 from random import randint
 from explosion import startExplosion
 import math
+import os
 
 jetup = 0
 shoot = 0
@@ -41,79 +42,72 @@ move_right = False
 move_up = 0
 move_down = False   
 
-
 pygame.init()
-screen = pygame.display.set_mode((2000, 1200))
+
+screenWidth = 1000
+screenHeight = 600
+screenCentre = (screenWidth/2, screenHeight/2)
+scale = screenHeight/screenWidth
+screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.RESIZABLE)
+
 pygame.display.set_caption('Moon Explorer')
 clock = pygame.time.Clock()
 
-
-sky_surf = pygame.display.set_mode((2000, 1200))
-sky_rect = sky_surf.get_rect(center = (1000, 600))
-
-foreground1_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
-foreground_surf = pygame.transform.scale(foreground1_surf, (2000, 1200))
-foreground_rect = foreground_surf.get_rect(topleft = (0, 0))
-
-foreground3_surf = pygame.image.load('graphics/foreground.png').convert_alpha()
-foreground2_surf = pygame.transform.scale(foreground3_surf, (2000, 1200))
-foreground2_rect = foreground2_surf.get_rect(topleft = (2000, 0))
+sky_rect = screen.get_rect(center = (screenWidth, screenHeight))
 
 cloud1_surf1 = pygame.image.load('graphics/cloud1.png').convert_alpha()
-cloud1_surf = pygame.transform.scale(cloud1_surf1, (640, 400))
+cloud1_surf = pygame.transform.scale(cloud1_surf1, (640*scale, 400*scale))
 cloud1_rect = cloud1_surf.get_rect(midleft = (2100, 400))
 
 cloud2_surf1 = pygame.image.load('graphics/cloud2.png').convert_alpha()
-cloud2_surf = pygame.transform.scale(cloud2_surf1, (640, 400))
+cloud2_surf = pygame.transform.scale(cloud2_surf1, (640*scale, 400*scale))
 cloud2_rect = cloud2_surf.get_rect(midleft = (2100, 400))
 
 cloud3_surf1 = pygame.image.load('graphics/cloud2.png').convert_alpha()
-cloud3_surf = pygame.transform.scale(cloud2_surf1, (640, 400))
+cloud3_surf = pygame.transform.scale(cloud2_surf1, (640*scale, 400*scale))
 cloud3_rect = cloud2_surf.get_rect(midleft = (2100, 400))    
 
 heli_surf1 = pygame.image.load('graphics/Helicopter.png').convert_alpha()
-heli_surf =  pygame.transform.scale(heli_surf1, (140, 70))
+heli_surf =  pygame.transform.scale(heli_surf1, (140*scale, 70*scale))
 heli_rect = heli_surf.get_rect(center = (1800, 600))
 
 jet_surf1 = pygame.image.load('graphics/fighter jet.png').convert_alpha()
-jet_surf =  pygame.transform.scale(jet_surf1, (120, 40))
-jet_rect = jet_surf.get_rect(center = (800, 600))
+jet_surf =  pygame.transform.scale(jet_surf1, (120*scale, 40*scale))
+jet_rect = jet_surf.get_rect(center = screenCentre)
 
 missile_surf1 = pygame.image.load('graphics/missile.png').convert_alpha()
-missile_surf = pygame.transform.scale(missile_surf1, (35, 12))
+missile_surf = pygame.transform.scale(missile_surf1, (35*scale, 12*scale))
 missile_rect = missile_surf.get_rect(center = (200, 600))
 
 enemy_surf1 = pygame.image.load('graphics/enemy.png').convert_alpha()
-enemy_surf = pygame.transform.scale(enemy_surf1, (100, 36))
-enemy_rect = enemy_surf.get_rect(center = (-50, 600))
+enemy_surf = pygame.transform.scale(enemy_surf1, (100*scale, 36*scale))
+enemy_rect = enemy_surf.get_rect(center = (0, screenCentre[1]))
 
 enemy_missile_surf1 = pygame.image.load('graphics/missile.png').convert_alpha()
-enemy_missile_surf = pygame.transform.scale(enemy_missile_surf1, (35, 12))
+enemy_missile_surf = pygame.transform.scale(enemy_missile_surf1, (35*scale, 12*scale))
 enemy_missile_rect = enemy_missile_surf.get_rect(center = (200, 600))
 
-speedomiter_surf1 = pygame.image.load('graphics/speedomiter.png').convert_alpha()
-speedomiter_surf = pygame.transform.scale(speedomiter_surf1, (400, 250))
-speedomiter_rect = speedomiter_surf.get_rect(center = (1600, 1100))
+speedomiterImg = pygame.image.load('graphics/speedomiter.png').convert_alpha()
+speedomiterObj = pygame.transform.scale(speedomiterImg, (400*scale, 250*scale))
+speedomiterRect = speedomiterObj.get_rect(bottomright = (screenWidth, screenHeight+speedomiterObj.get_height()/8))
 
 heartone_surf = pygame.image.load('graphics/heart.png').convert_alpha()
-heart1_surf = pygame.transform.scale(heartone_surf, (80, 80))
+heart1_surf = pygame.transform.scale(heartone_surf, (80*scale, 80*scale))
 heart1_rect = heart1_surf.get_rect(center = (100, 1110))
 
 hearttwo_surf = pygame.image.load('graphics/heart.png').convert_alpha()
-heart2_surf = pygame.transform.scale(hearttwo_surf, (80, 80))
+heart2_surf = pygame.transform.scale(hearttwo_surf, (80*scale, 80*scale))
 heart2_rect = heart2_surf.get_rect(center = (200, 1100))
 
 heartthree_surf = pygame.image.load('graphics/heart.png').convert_alpha()
-heart3_surf = pygame.transform.scale(heartthree_surf, (80, 80))
+heart3_surf = pygame.transform.scale(heartthree_surf, (80*scale, 80*scale))
 heart3_rect = heart3_surf.get_rect(center = (300, 1100))
 
-
-
-mph_font = pygame.font.Font(None, 70)
+mph_font = pygame.font.Font(None, int(70*scale))
 mphtext_surf = mph_font.render('mph', False, (225, 225, 225))
-mphtext_rect = mphtext_surf.get_rect(center = (1730, 1120)) 
+mphtext_rect = mphtext_surf.get_rect(center = (screenWidth-mphtext_surf.get_width()*1.2, screenHeight-mphtext_surf.get_height()/1.5)) 
 
-sky_rect = sky_surf.get_rect(topleft = (0, 0))
+sky_rect = screen.get_rect(topleft = (0, 0))
 
 def calculate_angle(x1, y1, x2, y2):
     angle = math.degrees(math.atan2(y2 - y1, x2 - x1))
@@ -131,30 +125,18 @@ while True:
     red = 79 + redheight
     green = 176 + greenheight
     blue = 240 + blueheight
-    pygame.draw.rect(sky_surf, (red, green, blue), sky_rect)
+    pygame.draw.rect(screen, (red, green, blue), sky_rect)
 
     
-    speed_font = pygame.font.Font(None, 100)
+    speed_font = pygame.font.Font(None, int(130*scale))
 
     speedtext_surf = speed_font.render(str(math.trunc(speed*10)), False, (225, 225, 225))
-    speedtext_rect = speedtext_surf.get_rect(center = (1560, 1100)) 
+    speedtext_rect = speedtext_surf.get_rect(center = (screenWidth-mphtext_surf.get_width()*1.3-mphtext_surf.get_width()*1.3, screenHeight-mphtext_surf.get_height())) 
 
 
-    screen.blit(speedomiter_surf, speedomiter_rect)
+    screen.blit(speedomiterObj, speedomiterRect)
     screen.blit(mphtext_surf, mphtext_rect)
     screen.blit(speedtext_surf, speedtext_rect)
-
-    screen.blit(foreground_surf, foreground_rect)
-    foreground_rect.x -= speed/20
-    foreground_rect.y += up_speed/20
-    screen.blit(foreground2_surf, foreground2_rect)
-    foreground2_rect.x -= speed/20
-    foreground2_rect.y += up_speed/20
-    if foreground_rect.right < 0:
-        foreground_rect = foreground_surf.get_rect(topleft = (2000, 0))
-    if foreground2_rect.right < 0:
-        foreground2_rect = foreground2_surf.get_rect(topleft = (2000, 0))
-
 
     if lives >= 1:
         screen.blit(heart1_surf, heart1_rect)
@@ -400,11 +382,11 @@ while True:
 
     if cloud1_rect.right < 0:
         cloud1reset = 1
-        cloud1_rect = cloud1_surf.get_rect(midleft = (2100, randint(10, 1000)))
+        cloud1_rect = cloud1_surf.get_rect(midleft = (screenWidth, randint(10, 1000)))
 
 
     jet_rotated_surf = pygame.transform.rotate(jet_surf, angle)
-    jet_rotated_rect = jet_rotated_surf.get_rect(center = (800, 600))
+    jet_rotated_rect = jet_rotated_surf.get_rect(center = screenCentre)
     
     screen.blit(jet_rotated_surf, jet_rotated_rect)
 
@@ -432,7 +414,7 @@ while True:
     
     animations_to_remove = []
     for animation in animations:
-        if animation.update(speed, up_speed):
+        if animation.update(screen, speed, up_speed):
             animations_to_remove.append(animation)
 
     for animation in animations_to_remove:

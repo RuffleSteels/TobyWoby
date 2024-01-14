@@ -4,7 +4,6 @@ import random
 from pygame.locals import *
 
 pygame.init()
-window = pygame.display.set_mode((600, 600))
 
 class Animation:
     image_sprite = [pygame.image.load(f"graphics/explosion/explosion 3_{i+1}.png") for i in range(64)]
@@ -14,7 +13,7 @@ class Animation:
         self.y = y
         self.value = 0
 
-    def update(self, speed, up_speed):
+    def update(self, speed, window, up_speed):
         if self.value >= len(Animation.image_sprite):
             return True  # Animation has finished
         else:
