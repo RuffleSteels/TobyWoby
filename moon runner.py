@@ -30,6 +30,7 @@ move_right = False
 move_up = 0
 move_down = False   
 
+
 pygame.init()
 screen = pygame.display.set_mode((2000, 1200))
 pygame.display.set_caption('Moon Explorer')
