@@ -9,7 +9,7 @@ jetup = 0
 shoot = 0
 missilexv = 0
 enemycoming = 0
-speed = 10
+xspeed = 10
 max_speed = 40
 min_speed = 10
 lives = 3
@@ -19,19 +19,17 @@ cloud1reset = 0
 redheight = 0
 greenheight = 0
 blueheight = 0
-up_speed = 0
+yspeed = 0
 angle = 0
 jet_angle = 0
 angle_increment = 0
 enemy_angle = 0
-offsetspeed = 10
 enemy_missile_fire = 0
 coordsx = 0
 coordsy = 0
 missile_angle = 0
-acceleration_up_speed = 0
+acceleration_yspeed = 0
 enemyshooting = 0
-side_speed = 10
 rotated_enemy_missile_rect = 0
 canenemyshooting = 0
 missilecolliding = 0
@@ -49,8 +47,6 @@ screenHeight = 900
 screenCentre = (screenWidth/2, screenHeight/2)
 scale = screenHeight/1.2/screenHeight
 screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.RESIZABLE)
-
-
 
 pygame.display.set_caption('Moon Explorer')
 clock = pygame.time.Clock()
@@ -133,9 +129,7 @@ colliding = 0
 animations = []
 temp_acc = 1     
  
-background_distance = 0
-midground_distance = 0
-foreground_distance = 0
+
  
 while True:
     red = 79 + redheight
@@ -144,28 +138,27 @@ while True:
     pygame.draw.rect(screen, (red, green, blue), sky_rect)
 
     screen.blit(background_surf, background_rect)
-    background_distance += speed / 20
-    if background_distance == int(background_distance):
-        background_rect.left - background_distance
-        background_rect.y += up_speed / 30
+    background_rect.left -= xspeed / 12
+    background_rect.y += yspeed / 12
 
     screen.blit(midground_surf, midground_rect)
-    midground_rect.left -= speed / 10
-    midground_rect.y += up_speed / 10
-    print(speed / 10, up_speed / 10)
+    midground_rect.left -= xspeed / 7
+    midground_rect.y += yspeed / 7
 
-
+    screen.blit(foreground_surf, foreground_rect)
+    foreground_rect.left -= xspeed / 5
+    foreground_rect.y += yspeed / 5
 
     #EVERYTHING WHICH MOVES
     
     
 
-    
+    print(angle)
 
     
     speed_font = pygame.font.Font(None, int(130*scale))
 
-    speedtext_surf = speed_font.render(str(math.trunc(speed*10)), False, (225, 225, 225))
+  
     speedtext_rect = speedtext_surf.get_rect(center = (screenWidth-mphtext_surf.get_width()*1.3-mphtext_surf.get_width()*1.3, screenHeight-mphtext_surf.get_height())) 
 
 
@@ -175,10 +168,10 @@ while True:
 
     #screen.blit(foreground_surf, foreground_rect)
     #foreground_rect.x -= speed/2
-    #foreground_rect.y += up_speed/20
+    #foreground_rect.y += yspeed/20
     #screen.blit(foreground2_surf, foreground2_rect)
     #foreground2_rect.x -= speed/2
-    #foreground2_rect.y += up_speed/20
+    #foreground2_rect.y += yspeed/20
     #if foreground_rect.right < 0:
     #    foreground_rect = foreground_surf.get_rect(topleft = (2000, 0))
     #if foreground2_rect.right < 0:
@@ -244,18 +237,28 @@ while True:
     #TRAJECTORY
 
 #    speed = math.degrees(math.cos(angle))/10
- #   up_speed = math.degrees(math.sin(angle))/10
+ #   yspeed = math.degrees(math.sin(angle))/10
 
     #CONTROLS THE PLANES SPEED
 
     if move_right:
-        if side_speed < max_speed:
-            side_speed += 0.3
+        if xspeed < max_speed:
+            if angle > 20 or angle < -20:
+                xspeed = math.cos(angle*(math.pi/180)) * 10
+                xspeed += 0.3
 
-            
+            w
     if move_left:
-        if side_speed > min_speed:
-            side_speed -= 0.3
+        if xspeed > min_speed:
+            if angle > 20 or angle < -20:
+                xspeed = math.cos(angle*(math.pi/180)) * 10
+                xspeed -= 0.3
+    
+    if angle < 20 and angle > -20:
+        yspeed = 0
+
+
+
 
    
 
@@ -264,35 +267,35 @@ while True:
 
 
     # if move_up == 1:
-    #     acceleration_up_speed = up_speed
+    #     acceleration_yspeed = yspeed
     #     if angle >= 0:
     #         if angle < 15:
-    #             up_speed = 1 * ((angle + 1) * 5 * angle)
+    #             yspeed = 1 * ((angle + 1) * 5 * angle)
     #         if angle < 45:
-    #             up_speed = 1 * ((angle + 1) * .01 * angle)
+    #             yspeed = 1 * ((angle + 1) * .01 * angle)
     #         if angle > 45:
-    #             up_speed = 0.4 * ((angle + 1) * .01 * angle)
+    #             yspeed = 0.4 * ((angle + 1) * .01 * angle)
     #     if angle < 0:
-    #             up_speed = 0.4 * ((angle + 1) * .01 * -angle)
+    #             yspeed = 0.4 * ((angle + 1) * .01 * -angle)
     #     jet_angle = 1
     # if move_up == -1:
-    #     acceleration_up_speed = up_speed
+    #     acceleration_yspeed = yspeed
     #     if angle <= 0:
     #         if angle > -45:
-    #             up_speed = 1 * ((angle + 1) * .01 * -angle)
+    #             yspeed = 1 * ((angle + 1) * .01 * -angle)
     #         if angle < -45:
-    #             up_speed = 0.4 * ((angle + 1) * .01 * -angle)
+    #             yspeed = 0.4 * ((angle + 1) * .01 * -angle)
     #     if angle > 0:
-    #             up_speed = 0.4 * ((angle + 1) * .01 * angle)
+    #             yspeed = 0.4 * ((angle + 1) * .01 * angle)
     #     jet_angle = -1
     # if move_up == 0:
-    #     acceleration_up_speed = acceleration_up_speed
+    #     acceleration_yspeed = acceleration_yspeed
     #     jet_angle = 0
     
-    # up_speed = calculate_y_velocity(angle)
+    # yspeed = calculate_y_velocity(angle)
     
-    up_speed = angle
-    
+    yspeed = angle
+
 
     if move_up == 1:
         jet_angle = 1
@@ -311,18 +314,12 @@ while True:
             greenheight -= angle/100
 
     if jet_angle == 1:
-        if angle < 25:
-            angle_increment += 0.1
-        if angle > 25:
-            if angle_increment > 0.2:
-                angle_increment -= 0.1
         if angle < 35:
+            angle_increment += 0.1
             angle += angle_increment
     if jet_angle == -1:
-
         if angle > -35:
             angle_increment += 0.1
-        if angle > -35:
             angle -= angle_increment
 
                 
@@ -348,8 +345,8 @@ while True:
     jet_centre = jet_rect.center
     
 
-    speed = math.cos(angle*(math.pi/180)) * side_speed 
-    # up_speed =  math.sin(angle*(math.pi/180)) * side_speed
+    
+    # yspeed =  math.sin(angle*(math.pi/180)) * side_speed
 
     enemy = randint(1, 150)
     if enemy == 54:
@@ -387,13 +384,13 @@ while True:
                 enemy_missile_rect = enemy_missile_surf.get_rect(center = (100, -100))
                 enemy_missile_fire == 0
 
-        if enemy_missile_fire == 1:
+        #if enemy_missile_fire == 1:
 
-            screen.blit(rotated_enemy_missile_surf, rotated_enemy_missile_rect)
+            #screen.blit(rotated_enemy_missile_surf, rotated_enemy_missile_rect)
 
             #coordsx += 13
-            rotated_enemy_missile_rect.x += math.cos(missile_angle*(math.pi/180))*10
-            rotated_enemy_missile_rect.y += ( math.sin(missile_angle*(math.pi/180))*10 ) + acceleration_up_speed
+            #rotated_enemy_missile_rect.x += math.cos(missile_angle*(math.pi/180))*10
+            #rotated_enemy_missile_rect.y += ( math.sin(missile_angle*(math.pi/180))*10 ) + acceleration_yspeed
 
 
         
@@ -403,8 +400,8 @@ while True:
     if enemycoming == 1:
 
 
-        enemy_rect.x += randint(5, 15) - speed/2 
-        enemy_rect.y += up_speed
+        enemy_rect.x += randint(5, 15) - xspeed/2 
+        enemy_rect.y += yspeed
         
         xdist = jet_top_left[0] - enemy_rect.left
         ydist = jet_top_left[1] - enemy_rect.top
@@ -412,9 +409,9 @@ while True:
         enemy_angle = 0
         if xdist != 0 or ydist != 0:
             enemy_angle = math.degrees(math.atan2(ydist, xdist))    
-        enemy_rect.y += up_speed + enemy_angle/3
+        enemy_rect.y += yspeed + enemy_angle/3
         if enemy_rect.x > jet_centre[0]:
-            enemy_rect.x -= speed/2
+            enemy_rect.x -= xspeed/2
         enemy_rotated_surf = pygame.transform.rotate(enemy_surf, -enemy_angle)
         enemy_rotated_rect = enemy_rotated_surf.get_rect(center = (enemy_rect.centerx, enemy_rect.centery))
         screen.blit(enemy_rotated_surf, enemy_rotated_rect)
@@ -429,8 +426,8 @@ while True:
         cloud1_coming = 1
     if cloud1_coming == 1:
         screen.blit(cloud1_surf, cloud1_rect)
-        cloud1_rect.left -= speed
-        cloud1_rect.y += up_speed
+        cloud1_rect.left -= xspeed
+        cloud1_rect.y += yspeed
 
     if cloud1_rect.right < 0:
         cloud1reset = 1
@@ -447,8 +444,8 @@ while True:
         cloud2coming = 1
     if cloud2coming == 1:
         screen.blit(cloud2_surf, cloud2_rect)
-        cloud2_rect.left -= (speed - 1)
-        cloud2_rect.y += (up_speed)
+        cloud2_rect.left -= (xspeed - 1)
+        cloud2_rect.y += (yspeed)
     if cloud2_rect.right < 0:
         cloud2reset = 1
         cloud2_rect = cloud2_surf.get_rect(midleft = (2100, randint(10, 1000)))
@@ -466,17 +463,11 @@ while True:
     
     animations_to_remove = []
     for animation in animations:
-        if animation.update(screen, speed, up_speed):
+        if animation.update(screen, xspeed, yspeed):
             animations_to_remove.append(animation)
 
     for animation in animations_to_remove:
         animations.remove(animation)
-
-
-    screen.blit(foreground_surf, foreground_rect)
-    foreground_rect.left -= speed / 5
-    foreground_rect.y += up_speed / 5
-
     pygame.display.update()
     clock.tick(60)
 
