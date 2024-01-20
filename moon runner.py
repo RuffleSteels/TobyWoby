@@ -1,7 +1,6 @@
 import pygame
 from sys import exit
 from random import randint
-from explosion import startExplosion
 import math
 import os
 
